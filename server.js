@@ -1,23 +1,32 @@
-var express = require('express');
-var app = express();
+// Global object to save user state
+user_states = init_user_states();
+init_server();
 
-// Object to save user state
-var user_states = {
-	"dtran": get_default_user_state("dtran"),
+function init_user_states() {
+	return {
+		"dtran": get_default_user_state("dtran"),
+	}
 }
 
-app.get('/:user', function(req, res) {
-	console.log(req.param('user'))
-	user = req.param('user')
-	handle_initial_user_request(user)
-	res.send(user_states);
-});
+function init_server() {
+	var express = require('express');
+	var app = express();
 
-var server = app.listen(3000, function() {
-    console.log('Listening on port %d', server.address().port);
-});
+	app.get('/:user', function(req, res) {
+		console.log(req.param('user'))
+		user = req.param('user')
+		add_user(user)
+		res.send(user_states);
+	});
 
-function handle_initial_user_request(user) {
+	var server = app.listen(3000, function() {
+	    console.log('Listening on port %d', server.address().port);
+	});
+}
+
+// State-related methods
+
+function add_user(user) {
 	// Initialize users array if necessary
 	if (user_states == null) {
 		user_states = {};
@@ -27,6 +36,10 @@ function handle_initial_user_request(user) {
 	if (user_states[user] == null) {
 		user_states[user] = get_default_user_state(user);
 	}
+}
+
+function remove_user(user) {
+	delete user_states[user];
 }
 
 function get_default_user_state(user) {
