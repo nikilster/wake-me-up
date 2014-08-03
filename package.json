@@ -17,6 +17,8 @@
   },
   "homepage": "https://github.com/nikilster/wake-me-up",
   "dependencies": {
-    "express": "^4.7.2"
+    "express": "^4.7.2",
+    "socket": "0.0.1",
+    "socket.io": "^1.0.6"
   }
 }

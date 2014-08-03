@@ -1,0 +1,25 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Wake me up</title>
+  </head>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+  <script>
+    var socket = io();
+
+    socket.on('update state', function(msg) {
+      // Handler for when state is updated
+      $('#state').text(JSON.stringify(msg));
+      console.log(msg);
+    });
+  </script>
+  
+  <body>
+    <h1>Wake me up</h1>
+
+    <h3>State:</h3>
+    <p id="state"></p>
+  </body>
+</html>

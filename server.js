@@ -1,54 +1,67 @@
-// Global object to save user state
-user_states = init_user_states();
-init_server();
+// State and server initialization
 
-function init_user_states() {
-	return {
-		"dtran": get_default_user_state("dtran"),
-	}
-}
+var user_states = init_user_states();
 
-function init_server() {
-	var express = require('express');
-	var app = express();
+var app = require('express')();
+var server = require('http').Server(app);
+server.listen(3000, function() {
+    console.log('Listening on port %d', server.address().port);
+});
 
-	app.get('/:user', function(req, res) {
-		console.log(req.param('user'))
-		user = req.param('user')
-		add_user(user)
-		res.send(user_states);
-	});
+var io = require('socket.io').listen(server);
 
-	var server = app.listen(3000, function() {
-	    console.log('Listening on port %d', server.address().port);
-	});
-}
+// Handler for url
+app.get('/:user', function(req, res) {
+    console.log(req.param('user'))
+    user = req.param('user')
+    add_user(user)
+    // res.send(user_states);
+    res.sendfile('index.html');
+});
+
+// Socket communication
+io.on('connection', function(socket){
+    // Debug logging
+    console.log('a user connected');
+    io.emit('update state', user_states);
+
+    socket.on('disconnect', function(){
+        console.log('user disconnected');
+    });
+});
+
 
 // State-related methods
 
-function add_user(user) {
-	// Initialize users array if necessary
-	if (user_states == null) {
-		user_states = {};
-	}
+function init_user_states() {
+    return {
+        "dtran": get_default_user_state("dtran"),
+    }
+}
 
-	// Add user if necessary
-	if (user_states[user] == null) {
-		user_states[user] = get_default_user_state(user);
-	}
+function add_user(user) {
+    // Initialize users array if necessary
+    if (user_states == null) {
+        user_states = {};
+    }
+
+    // Add user if necessary
+    if (user_states[user] == null) {
+        user_states[user] = get_default_user_state(user);
+    }
 }
 
 function remove_user(user) {
-	delete user_states[user];
+    delete user_states[user];
 }
 
 function get_default_user_state(user) {
-	return {
-		"name": user,
-		"alarm_ts": Date.now()-600000,
-		"awake": false,
-		"awake_ts": null,
-		"video": "https://www.youtube.com/watch?v=fWNaR-rxAic",
-		"video_start_ts": Date.now()-120000	
-	}
+    return {
+        "name": user,
+        "alarm_ts": Date.now()-600000,
+        "awake": false,
+        "awake_ts": null,
+        "video": "https://www.youtube.com/watch?v=fWNaR-rxAic",
+        "video_start_ts": Date.now()-120000 
+    }
 }
