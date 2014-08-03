@@ -7,6 +7,8 @@
   <script src="/socket.io/socket.io.js"></script>
   <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
   <script>
+
+
     var socket = io();
 
     // Tell server there's a new user
@@ -18,10 +20,25 @@
       $('#state').text(JSON.stringify(msg));
       console.log(msg);
     });
+
+    // Example for how to change the state
+    $(document).ready(function() {
+      $("#update_state_button").click(function() {
+        var updated_fields = {
+            "alarm_ts": Date.now()-600000,
+            "video": "https://www.youtube.com/watch?v=BQeMxWjpr-Y",
+        }
+
+        // Socket call to actuallly update the user's state
+        socket.emit('update user', JSON.stringify(updated_fields));
+      });
+    });
   </script>
-  
+
+
   <body>
     <h1>Wake me up</h1>
+    <button id="update_state_button">Update me</button>
 
     <h3>State:</h3>
     <p id="state"></p>
