@@ -9,8 +9,12 @@
   <script>
     var socket = io();
 
+    // Tell server there's a new user
+    var user = window.location.pathname.split('/').pop();
+    socket.emit('user signed on', user);
+
+    // Handler for when state is updated
     socket.on('update state', function(msg) {
-      // Handler for when state is updated
       $('#state').text(JSON.stringify(msg));
       console.log(msg);
     });

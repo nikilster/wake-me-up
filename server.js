@@ -12,21 +12,30 @@ var io = require('socket.io').listen(server);
 
 // Handler for url
 app.get('/:user', function(req, res) {
-    console.log(req.param('user'))
-    user = req.param('user')
-    add_user(user)
+    // console.log(req.param('user'))
+    // user = req.param('user')
+    // add_user(user)
     // res.send(user_states);
     res.sendfile('index.html');
 });
 
 // Socket communication
 io.on('connection', function(socket){
-    // Debug logging
-    console.log('a user connected');
-    io.emit('update state', user_states);
+    var user;
 
-    socket.on('disconnect', function(){
-        console.log('user disconnected');
+    socket.on('user signed on', function(msg) {
+      user = msg;
+      console.log(user + ' signed on');
+      add_user(user);
+
+      io.emit('update state', user_states);
+    });
+
+    socket.on('disconnect', function() {
+      remove_user(user);
+      console.log(user + ' signed off');
+
+      io.emit('update state', user_states);
     });
 });
 
