@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+  <head>
+
+    <!-- Based off the bootstrap template from: http://getbootstrap.com/getting-started/#download -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Wake Me Up!</title>
+
+    <!-- Load the Javascript libraries -->
+    <script src="libraries/angular.min.js"></script>
+    <script src="js/controller.js"></script>
+   
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="libraries/bootstrap-3.2.0-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="libraries/bootstrap-3.2.0-dist/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="css/index.css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+  </head>
+  
+  <body ng-app="wakeMeUpApp" ng-controller="GoGettersController">
+
+
+    <img src="img/sunrise.jpg" id="bg" alt=""/>
+
+    <div class="container-fluid panel main-container">
+
+      <!-- Header -->
+      <div class="row panel-warning">
+        <div class="col-md-2 panel-heading">
+          <h3 class="panel-title">Picture</panel>
+        </div>
+        <div class="col-md-2 panel-heading">
+          <h3 class="panel-title">Name</panel>
+        </div>
+        <div class="col-md-2 panel-heading">
+          <h3 class="panel-title">Goal</panel>
+        </div>
+        <div class="col-md-2 panel-heading">
+          <h3 class="panel-title">Status</panel>
+        </div>
+        <div class="col-md-4 panel-heading">
+          <h3 class="panel-title">Now Playing</panel>
+        </div>
+      </div>
+
+      <div class="row user" ng-repeat="goGetter in goGetters">
+          <div class="col-md-2">
+            <img src="{{goGetter.picture}}" class='img-rounded img-thumbnail' alt="{{goGetter.name}}">
+          </div>
+          <div class="col-md-2">{{goGetter.name}}</div>
+          <div class="col-md-2">{{goGetter.goal}}</div>
+          <div class="col-md-2">{{goGetter.status}}</div>
+          <div class="col-md-4"></div>
+      </div>
+
+    </div>
+
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="libraries/jquery-1.11.1.min.js"></script>
+    <script src="libraries/bootstrap-3.2.0-dist/js/bootstrap.min.js"></script>
+    <script src="js/index.js"></script>
+  </body>
+</html>
