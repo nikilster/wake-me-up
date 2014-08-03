@@ -54,13 +54,32 @@
       </div>
 
       <div class="row user" ng-repeat="goGetter in goGetters">
+          <!-- Picture -->
           <div class="col-md-2">
             <img src="{{goGetter.picture}}" class='img-rounded img-thumbnail' alt="{{goGetter.name}}">
           </div>
+
+          <!-- Name -->
           <div class="col-md-2">{{goGetter.name}}</div>
+
+          <!-- Goal -->
           <div class="col-md-2">{{goGetter.goal}}</div>
-          <div class="col-md-2">{{goGetter.status}}</div>
-          <div class="col-md-4"></div>
+
+          <!-- Status -->
+          <div class="col-md-2">
+
+            <!-- Sleeping Image -->
+            <img ng-if="goGetter.status == 0" src="img/sleeping.png" class='smiley' alt="{{goGetter.name}} is sleeping!">
+
+            <!-- Awake Image -->
+            <img ng-if="goGetter.status == 1" src="img/awake.png" class='smiley' alt="{{goGetter.name}} is awake!">
+
+          </div>
+
+          <!-- Action -->
+          <div class="col-md-4">
+            <div id="player"></div>
+          </div>
       </div>
 
     </div>
